@@ -6,10 +6,10 @@ Keywords:
     STATEMENT -> keyword to define a Statement
 
 Structure of Statement:
-    S -> STATEMENT ('characterRead', 'replacingCharacter', 'direction') -> stateName;
-    characterRead -> a-z | 0-9 | /
-    replacingCharacter -> a-z | 0-9 | /
-    direction -> L | R
+    S -> STATEMENT (characterRead,replacingCharacter,direction) -> stateName;
+    characterRead -> a-z | 0-9 | / | $ | *
+    replacingCharacter -> a-z | 0-9 | / | $ | *
+    direction -> l | r
     stateName -> digit | START | HALT
     digit -> 1-9D | 0-9
     D -> DD | 0-9
@@ -19,12 +19,12 @@ Structure of Loop:
     A -> AA | STATEMENT
 
 Structure of State:
-    S -> STATE stateName {A} | STATE stateName INSERT 'character' -> stateName | STATE stateName DELETE -> stateName
-    stateName -> digit | START | HALT
+    S -> STATE stateName {A} | STATE stateName INSERT character -> stateName | STATE stateName DELETE -> stateName | STATE HALT {}
+    stateName -> digit | START
     digit -> 1-9D | 0-9
     D -> DD | 0-9
     A -> AA | LOOP | STATEMENT
-    character -> a-z | 0-9 | /
+    character -> a-z | 0-9 | / | $ | *
 
 Language Rules:
     -> HALT state should not have any statements, that is, should be empty.
