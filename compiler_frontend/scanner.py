@@ -1,16 +1,20 @@
 import re
 
-KEYWORDS: list[str] = ["START", "HALT", "STATE", "LOOP", "STATEMENT"]
+
+class SymbolTable:
+    def __init__(self) -> None:
+        self._KEYWORDS: list[str] = ["start", "halt", "state", "loop", "statement"]
+
 
 class Scanner:
     def __init__(self) -> None:
         self._source_code: str = ""
-        self._tokens: list[str] = []
+        self._tokens: list[tuple[str, str]] = []
         self._current_idx: int = 0
 
     def load_source_code(self, file_path: str) -> None:
         with open(file_path, "r") as file:
-            self._source_code = file.read()
+            self._source_code = file.read().strip()
 
     def get_next_character(self) -> str:
         if self._current_idx >= len(self._source_code):
@@ -21,6 +25,13 @@ class Scanner:
     
     def output_source_code(self) -> None:
         print(self._source_code)
+
+    def tokenize(self) -> None:
+        current_token: str = ""
+        while True:
+            character: str = self.get_next_character()
+            if character == "":
+                break
 
 
 def main():
