@@ -11,7 +11,7 @@ class SymbolTable:
         if token.lower() in self._KEYWORDS:
             return True
         
-        if re.match(r"^([a-zA-Z0-9],[a-zA-Z0-9],[lr])$", token):
+        if re.match(r"^\([a-zA-Z0-9],[a-zA-Z0-9],[lr]\)$", token):
             return True
         
         if token in list(ascii_letters + digits + "*$/"): 
@@ -22,6 +22,7 @@ class SymbolTable:
         
         if token == "->":
             return True
+    
         
         return False
         
@@ -58,7 +59,7 @@ class Scanner:
             if character == "":
                 break
 
-            if character == " " or character == "\n":
+            if character in [" ", "\n", ";", "}", "{"]:
                 if character == "\n": lineno += 1
                 if current_token:
                     if self.symbol_table.authorize_token(current_token):
@@ -66,14 +67,25 @@ class Scanner:
                         current_token = ""
                     else:
                         raise FileProcessingException("SYNTAX ERROR", self._filename, lineno)
+                
+                if character != " " and character != "\n":
+                    self._tokens.append(character)
                 continue
 
             current_token += character
+
+    def output_tokens(self) -> None:
+        print(self._tokens)
 
 
 def main():
     scanner: Scanner = Scanner()
     scanner.load_source_code("language.txt")
+    try:
+        scanner.tokenize()
+    except FileProcessingException as e:
+        print(e)
+    scanner.output_tokens()
 
 if __name__ == "__main__":
     main()
