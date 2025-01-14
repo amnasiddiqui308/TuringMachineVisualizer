@@ -62,6 +62,7 @@ class Graph:
 
         print()
 
+        # finding shortest path from source
         while len(visited_nodes) != len(nodes):
             step += 1
             min_cost = float('inf')
