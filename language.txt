@@ -1,17 +1,13 @@
 STATE 0 {
-    STATEMENT ('a', 'b', 'L') -> 1;
-    STATEMENT ('a', 'a', 'R') -> 2;
+    STATEMENT (a,b,l) -> 1;
+    STATEMENT (a,a,r) -> 2;
     LOOP {
-        STATEMENT ('b', 'a', 'R') -> 0;
-        STATEMENT ('a', 'a', 'L') -> 0;
+        STATEMENT (b,a,r) -> 0;
+        STATEMENT (a,a,l) -> 0;
     }
-    STATEMENT ('b', 'b', 'L') -> HALT;
+    STATEMENT (b,b,l) -> HALT;
 }
 
-STATE HALT {
-    LOOP {
-        STATEMENT ('a', 'a', 'L') -> HALT;
-    }
-}
+STATE HALT {}
 
-STATE 2 INSERT 'a' -> 0
+STATE 2 INSERT a -> 0
